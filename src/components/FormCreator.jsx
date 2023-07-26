@@ -12,27 +12,14 @@ import { AddQuestion } from "./AddQuestion";
 const { v4: uuidv4 } = require("uuid");
 
 const FormatQuestion = ({ q }) => {
+  console.log(q);
   switch (q.type) {
     case "cloze":
       return (
-        // <div className='w-full p-4 flex flex-col items-center justify-evenly'>
-        //   <div>{question}</div>
-        //   <div className='grid grid-cols-2 gap-2'>
-        //     {options?.map((e) => {
-        //       return (
-        //         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
-        //           <input type='radio' name='q1' value={e} />
-        //           <div>{e}</div>
-        //         </label>
-        //       );
-        //     })}
-        //   </div>
-        // </div>
-
         <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
           <div className='w-full border border-gray-200'>{q.question}</div>
           <div className='w-full grid grid-cols-2 gap-2'>
-            {q.options?.map((e, index) => {
+            {q?.mcq?.options?.map((e, index) => {
               // Use index to determine which column the option should be placed in
               const column = index % 2 === 0 ? 1 : 2;
 
@@ -55,13 +42,13 @@ const FormatQuestion = ({ q }) => {
           <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
             <div>{q.paragraph}</div>
             <div>
-              {Object.values(q.mcq).map((m) => {
+              {Object.keys(q.mcq).map((m) => {
                 <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
                   <div className='w-full border border-gray-200'>
-                    {m.question}
+                    {q.mcq["text"]}
                   </div>
                   <div className='grid grid-cols-2 gap-2'>
-                    {m?.options?.map((e, index) => {
+                    {q.mcq["options"]?.map((e, index) => {
                       // Use index to determine which column the option should be placed in
                       const column = index % 2 === 0 ? 1 : 2;
 

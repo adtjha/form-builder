@@ -7,6 +7,10 @@ export const MultipleChoice = ({
   questions,
   setQuestions,
 }) => {
+  useEffect(() => {
+    console.log(id, removeQuestion, questions, setQuestions);
+  });
+
   const [que, setQue] = useState({
     id: id,
     text: "",
@@ -40,8 +44,7 @@ export const MultipleChoice = ({
     }
   };
 
-  const submitQuestion = () => {
-    console.log("before", questions);
+  useEffect(() => {
     setQuestions(
       (questions) =>
         (questions[que.id] = {
@@ -49,15 +52,7 @@ export const MultipleChoice = ({
           options: [que.opt0, que.opt1, que.opt2, que.opt3],
         })
     );
-    console.log("after", questions);
-  };
-
-  /**
-   * {
-        qid: que.id,
-
-      },
-   */
+  }, [que]);
 
   return (
     <div
@@ -78,23 +73,6 @@ export const MultipleChoice = ({
           />
         </svg>
       </button>
-      <button
-        onClick={() => submitQuestion(id)}
-        className='absolute bottom-2 right-2 text-gray-500 hover:text-gray-700'>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth={1.5}
-          stroke='currentColor'
-          className='w-6 h-6'>
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M4.5 12.75l6 6 9-13.5'
-          />
-        </svg>
-      </button>
       <input
         value={que?.text}
         onChange={(e) => handleChange(e.target.value, "que")}
@@ -108,7 +86,7 @@ export const MultipleChoice = ({
             value={que?.opt0 || ""}
             onChange={(e) => handleChange(e.target.value, "opt0")}
             type='text'
-            class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+            className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 1'
           />
         </label>
@@ -118,7 +96,7 @@ export const MultipleChoice = ({
             value={que?.opt1 || ""}
             onChange={(e) => handleChange(e.target.value, "opt1")}
             type='text'
-            class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+            className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 2'
           />
         </label>
@@ -128,7 +106,7 @@ export const MultipleChoice = ({
             value={que?.opt2 || ""}
             onChange={(e) => handleChange(e.target.value, "opt2")}
             type='text'
-            class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+            className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 3'
           />
         </label>
@@ -138,7 +116,7 @@ export const MultipleChoice = ({
             value={que?.opt3 || ""}
             onChange={(e) => handleChange(e.target.value, "opt3")}
             type='text'
-            class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+            className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 3'
           />
         </label>

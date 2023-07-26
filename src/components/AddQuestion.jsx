@@ -44,10 +44,10 @@ export const AddQuestion = () => {
       </button>
       {open && (
         <>
-          <div class=' rounded overflow-hidden shadow-lg m-auto'>
-            <div class='px-6 py-4 space-x-4 flex flex-row items-center justify-around'>
+          <div className=' rounded overflow-hidden shadow-lg m-auto'>
+            <div className='px-6 py-4 space-x-4 flex flex-row items-center justify-around'>
               <div className='flex flex-row items-center justify-evenly'>
-                <label class='font-semibold text-xl'>Question Type</label>
+                <label className='font-semibold text-xl'>Question Type</label>
                 <select
                   name='questionType'
                   className='h-12 p-3'

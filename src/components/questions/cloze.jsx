@@ -54,6 +54,10 @@ const ClozeQuestion = ({ content, image }) => {
     });
   };
 
+  useEffect(() => {
+    console.log(blank);
+  }, [blank]);
+
   return (
     <div className='m-4 grid grid-flow-row gap-4'>
       {image && <img src={image} alt='Question Image' />}
@@ -112,7 +116,7 @@ const ClozeQuestion = ({ content, image }) => {
       <label className='block mt-4'>
         <div className='text-gray-700 flex flex-row items-center justify-between'>
           Options{" "}
-          <button onClick={() => blank.push("")}>
+          <button onClick={() => blank.push("    ")}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -145,7 +149,7 @@ const ClozeQuestion = ({ content, image }) => {
       </label>
       {/* Additional logic and UI elements specific to Cloze questions can be added here */}
       <button
-        class='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
+        className='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
         onClick={handleSave}>
         Save
       </button>

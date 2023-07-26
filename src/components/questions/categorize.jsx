@@ -5,7 +5,7 @@ const Item = (id) => (
   <input
     id={id}
     type='text'
-    class='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+    className='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
     placeholder='Type your question here...'
   />
 );
@@ -14,7 +14,7 @@ const BelongsTo = (id) => (
   <input
     id={id}
     type='text'
-    class='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+    className='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
     placeholder='Type your question here...'
   />
 );
@@ -35,14 +35,14 @@ const CategorizeQuestion = ({ content, image }) => {
     <div>
       <div className='m-4 grid grid-cols-2 gap-4'>
         {/* {image && <img src={image} alt="Question Image" />} */}
-        <label class='block'>
-          <span class='text-gray-700'>Item</span>
+        <label className='block'>
+          <span className='text-gray-700'>Item</span>
           {item.map((e) => (
             <Item id={e} />
           ))}
         </label>
-        <label class='block'>
-          <span class='text-gray-700'>Belongs to</span>
+        <label className='block'>
+          <span className='text-gray-700'>Belongs to</span>
           {belong.map((e) => (
             <BelongsTo id={e} />
           ))}
@@ -63,7 +63,7 @@ const CategorizeQuestion = ({ content, image }) => {
         </svg>
       </button>
       <button
-        class='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
+        className='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
         onClick={() => console.log("Save Categorize")}>
         Save
       </button>
