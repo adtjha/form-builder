@@ -5,96 +5,94 @@
  * editable answer tab
  * save button
  */
-
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ClozeQuestion from "./questions/cloze";
-import ComprehensionQuestion from "./questions/comprehension";
-import CategorizeQuestion from "./questions/categorize";
-import axios from "axios";
+import { AddQuestion } from "./AddQuestion";
+const { v4: uuidv4 } = require("uuid");
 
-const AddQuestion = () => {
-  const [open, setOpen] = useState(false);
-  const [questions, setQuestion] = useState([]);
+const FormatQuestion = ({ q }) => {
+  switch (q.type) {
+    case "cloze":
+      return (
+        // <div className='w-full p-4 flex flex-col items-center justify-evenly'>
+        //   <div>{question}</div>
+        //   <div className='grid grid-cols-2 gap-2'>
+        //     {options?.map((e) => {
+        //       return (
+        //         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
+        //           <input type='radio' name='q1' value={e} />
+        //           <div>{e}</div>
+        //         </label>
+        //       );
+        //     })}
+        //   </div>
+        // </div>
 
-  const [questionType, setQuestionType] = useState("cloze");
+        <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
+          <div className='w-full border border-gray-200'>{q.question}</div>
+          <div className='w-full grid grid-cols-2 gap-2'>
+            {q.options?.map((e, index) => {
+              // Use index to determine which column the option should be placed in
+              const column = index % 2 === 0 ? 1 : 2;
 
-  const handleOpenClick = () => {
-    setOpen(true);
-  };
-  const handleCloseClick = () => {
-    setOpen(false);
-  };
-
-  const handleQuestionType = (e) => {
-    setQuestionType(e.target.value);
-  };
-
-  const handleSave = () => {
-    console.log("save");
-  };
-
-  return (
-    <>
-      <button
-        className='mt-10 flex flex-col items-center justify-evenly z-0'
-        onClick={handleOpenClick}>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth={1.5}
-          stroke='currentColor'
-          className='w-6 h-6'>
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
-          />
-        </svg>
-      </button>
-      {open && (
+              return (
+                <label
+                  className={`w-full flex flex-row items-center justify-start my-2 gap-2 col-${column}`}>
+                  <input type='radio' name='q1' value={e} />
+                  <div>{e}</div>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      );
+    case "categorize":
+      return <h1>Categorize</h1>;
+    case "comprehension":
+      return (
         <>
-          <div class=' rounded overflow-hidden shadow-lg m-auto'>
-            <div class='px-6 py-4 space-x-4'>
-              <label class='font-semibold text-xl mb-2'>Question Type</label>
-              <select
-                name='questionType'
-                className='h-12 p-3'
-                value={questionType}
-                onChange={handleQuestionType}>
-                <option value='cloze'>Cloze</option>
-                <option value='comprehension'>Comprehension</option>
-                <option value='categorize'>Categorize</option>
-              </select>
-            </div>
-            {questionType === "cloze" && <ClozeQuestion />}
-            {questionType === "comprehension" && <ComprehensionQuestion />}
-            {questionType === "categorize" && <CategorizeQuestion />}
-            <div className='w-full flex flex-row items-center justify-evenly'>
-              <button
-                class='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
-                onClick={handleSave}>
-                Save
-              </button>
-              <button
-                class='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-br-md'
-                onClick={handleCloseClick}>
-                Close
-              </button>
+          <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
+            <div>{q.paragraph}</div>
+            <div>
+              {Object.values(q.mcq).map((m) => {
+                <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
+                  <div className='w-full border border-gray-200'>
+                    {m.question}
+                  </div>
+                  <div className='grid grid-cols-2 gap-2'>
+                    {m?.options?.map((e, index) => {
+                      // Use index to determine which column the option should be placed in
+                      const column = index % 2 === 0 ? 1 : 2;
+
+                      return (
+                        <label
+                          className={`w-full flex flex-row items-center justify-start my-2 gap-2 col-${column}`}>
+                          <input type='radio' name='q1' value={e} />
+                          <div>{e}</div>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>;
+              })}
             </div>
           </div>
         </>
-      )}
-    </>
-  );
+      );
+    default:
+      console.Error("Type unknown");
+      break;
+  }
 };
 
 export const FormCreator = () => {
-  const [question, setQuestion] = useState([]);
+  // const [question, setQuestion] = useState([]);
+  const formId = uuidv4();
+  const questions = useSelector((state) => state.questions.questions);
 
   return (
-    <div className='p-2 flex flex-col justify-evenly'>
+    <div className='p-2 flex flex-col justify-evenly space-y-4'>
       <Link
         to={"/"}
         className='w-fit flex flex-row items-start justify-evenly space-x-2 mb-4'>
@@ -113,8 +111,14 @@ export const FormCreator = () => {
         </svg>
         <span className='font-medium text-base'>back</span>
       </Link>
-      <h1 className='w-fit m-auto text-4xl font-semibold'>Form Creator</h1>
-      <AddQuestion setQuestion={setQuestion} />
+      <h1 className='w-fit m-auto text-4xl font-semibold inline-flex flex-col items-center'>
+        Form Creator
+        <span className='text-xs text-gray-400'>{formId}</span>
+      </h1>
+      {questions.map((q) => (
+        <FormatQuestion q={q} />
+      ))}
+      <AddQuestion />
     </div>
   );
 };

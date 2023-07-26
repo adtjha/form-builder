@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const ClozeQuestion = ({ content, image }) => {
   const [sentence, setSentence] = useState();
   const [words, setWords] = useState([]);
   const [blank, setBlanks] = useState([]);
   const [question, setQuestion] = useState();
+
+  const dispatch = useDispatch();
 
   const handleSentence = (e) => {
     setWords(e.target.value.split(" "));
@@ -39,8 +42,20 @@ const ClozeQuestion = ({ content, image }) => {
     setQuestion(que.join(" "));
   }, [words, blank]);
 
+  const handleSave = () => {
+    console.log("Save Cloze");
+    dispatch({
+      type: "ADD_QUESTION",
+      payload: {
+        type: "cloze",
+        question: question,
+        options: blank,
+      },
+    });
+  };
+
   return (
-    <div className='m-4'>
+    <div className='m-4 grid grid-flow-row gap-4'>
       {image && <img src={image} alt='Question Image' />}
       <label className='block'>
         <span className='text-gray-700'>Sentence</span>
@@ -53,7 +68,12 @@ const ClozeQuestion = ({ content, image }) => {
         />
       </label>
       <label className='block mt-4'>
-        <span className='text-gray-700'>Words</span>
+        <span className='text-gray-700'>
+          Words{" "}
+          <span className='text-sm text-gray-00'>
+            (Click on words which you want to fill in.)
+          </span>
+        </span>
         <div className='w-full flex flex-row flex-wrap items-start justify-start gap-2'>
           {words.map((w, i) => {
             if (blank.includes(i)) {
@@ -90,13 +110,31 @@ const ClozeQuestion = ({ content, image }) => {
         />
       </label>
       <label className='block mt-4'>
-        <span className='text-gray-700'>Options</span>
+        <div className='text-gray-700 flex flex-row items-center justify-between'>
+          Options{" "}
+          <button onClick={() => blank.push("")}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='w-6 h-6'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
+            </svg>
+          </button>
+        </div>
         <ol className='w-full flex flex-col flex-wrap items-start justify-start gap-2 list-decimal mx-4'>
           {blank.map((b, i) => (
             <li>
               <button
                 id={i}
                 type='button'
+                contentEditable={true}
                 className='px-2 py-1 border-2 border-gray-800 rounded-md'
                 onClick={() => console.log("yay")}>
                 {b}
@@ -106,6 +144,11 @@ const ClozeQuestion = ({ content, image }) => {
         </ol>
       </label>
       {/* Additional logic and UI elements specific to Cloze questions can be added here */}
+      <button
+        class='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
+        onClick={handleSave}>
+        Save
+      </button>
     </div>
   );
 };

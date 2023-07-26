@@ -1,7 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 const { v4: uuidv4 } = require("uuid");
 
-export const MultipleChoice = ({ id, removeQuestion }) => {
+export const MultipleChoice = ({
+  id,
+  removeQuestion,
+  questions,
+  setQuestions,
+}) => {
+  const [que, setQue] = useState({
+    id: id,
+    text: "",
+    opt0: "",
+    opt1: "",
+    opt2: "",
+    opt3: "",
+  });
+
+  const handleChange = (value, type) => {
+    switch (type) {
+      case "que":
+        setQue({ ...que, text: value });
+        break;
+      case "opt0":
+        setQue({ ...que, opt0: value });
+        break;
+      case "opt1":
+        setQue({ ...que, opt1: value });
+        break;
+      case "opt2":
+        setQue({ ...que, opt2: value });
+        break;
+      case "opt3":
+        setQue({ ...que, opt3: value });
+        break;
+
+      default:
+        console.log("Wrong Type");
+        break;
+    }
+  };
+
+  const submitQuestion = () => {
+    console.log("before", questions);
+    setQuestions(
+      (questions) =>
+        (questions[que.id] = {
+          text: que.text,
+          options: [que.opt0, que.opt1, que.opt2, que.opt3],
+        })
+    );
+    console.log("after", questions);
+  };
+
+  /**
+   * {
+        qid: que.id,
+
+      },
+   */
+
   return (
     <div
       id={id}
@@ -21,7 +78,26 @@ export const MultipleChoice = ({ id, removeQuestion }) => {
           />
         </svg>
       </button>
+      <button
+        onClick={() => submitQuestion(id)}
+        className='absolute bottom-2 right-2 text-gray-500 hover:text-gray-700'>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='w-6 h-6'>
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M4.5 12.75l6 6 9-13.5'
+          />
+        </svg>
+      </button>
       <input
+        value={que?.text}
+        onChange={(e) => handleChange(e.target.value, "que")}
         className='h-12 p-3 mt-4 mb-6 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
         placeholder='Type your question here...'
       />
@@ -29,6 +105,8 @@ export const MultipleChoice = ({ id, removeQuestion }) => {
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='a' />
           <input
+            value={que?.opt0 || ""}
+            onChange={(e) => handleChange(e.target.value, "opt0")}
             type='text'
             class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 1'
@@ -37,6 +115,8 @@ export const MultipleChoice = ({ id, removeQuestion }) => {
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='b' />
           <input
+            value={que?.opt1 || ""}
+            onChange={(e) => handleChange(e.target.value, "opt1")}
             type='text'
             class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 2'
@@ -45,6 +125,8 @@ export const MultipleChoice = ({ id, removeQuestion }) => {
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='c' />
           <input
+            value={que?.opt2 || ""}
+            onChange={(e) => handleChange(e.target.value, "opt2")}
             type='text'
             class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 3'
@@ -53,6 +135,8 @@ export const MultipleChoice = ({ id, removeQuestion }) => {
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='d' />
           <input
+            value={que?.opt3 || ""}
+            onChange={(e) => handleChange(e.target.value, "opt3")}
             type='text'
             class='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='option 3'
