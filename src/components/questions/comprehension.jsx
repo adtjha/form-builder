@@ -4,32 +4,40 @@ import { useDispatch } from "react-redux";
 const { v4: uuidv4 } = require("uuid");
 
 const ComprehensionQuestion = ({ content, image }) => {
-  const [questions, setQuestions] = useState({});
+  let uid = uuidv4();
+  const [questions, setQuestions] = useState([
+    {
+      id: uid,
+      text: "",
+      options: ["", "", "", ""],
+    },
+  ]);
+
+  console.log(questions);
   const [para, setPara] = useState("");
 
   const dispatch = useDispatch();
 
   const addQuestion = (e) => {
     let uid = uuidv4();
-    setQuestions({
+    console.log("addQuestion", questions);
+    setQuestions([
       ...questions,
-      [uid]: {
+      {
+        id: uid,
         text: "",
         options: [],
       },
-    });
-    console.log(questions);
+    ]);
   };
 
   const removeQuestion = (id) => {
-    // setQuestions(questions?.filter((e) => e.qid !== id));
-    setQuestions((questions) =>
-      Object.keys(questions).map((e) => e.qid !== id)
-    );
+    setQuestions((questions) => questions?.filter((e) => e.id !== id));
+    console.log("here", questions);
   };
 
   const handleSave = () => {
-    console.log("Save Cloze");
+    console.log("Save Comprehension");
     dispatch({
       type: "ADD_QUESTION",
       payload: {
@@ -57,21 +65,10 @@ const ComprehensionQuestion = ({ content, image }) => {
         <span className='text-gray-700'>Add Questions</span>
       </button>
       <div className='p-2 mt-4 flex flex-col items-start justify-evenly'>
-        {/* {questions?.map((e, i) => {
-          return (
-            <MultipleChoice
-              key={e}
-              id={e}
-              removeQuestion={removeQuestion}
-              questions={questions}
-              setQuestions={setQuestions}
-            />
-          );
-        })} */}
-        {Object.keys(questions).map((e) => (
+        {questions?.map((e) => (
           <MultipleChoice
-            key={e}
-            id={e}
+            key={e.id}
+            id={e.id}
             removeQuestion={removeQuestion}
             questions={questions}
             setQuestions={setQuestions}

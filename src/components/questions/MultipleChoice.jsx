@@ -7,35 +7,47 @@ export const MultipleChoice = ({
   questions,
   setQuestions,
 }) => {
-  useEffect(() => {
-    console.log(id, removeQuestion, questions, setQuestions);
-  });
+  // useEffect(() => {
+  //   console.log(id, removeQuestion, questions, setQuestions);
+  // });
 
-  const [que, setQue] = useState({
-    id: id,
-    text: "",
-    opt0: "",
-    opt1: "",
-    opt2: "",
-    opt3: "",
-  });
+  // const [que, setQue] = useState({
+  //   id: id,
+  //   text: "",
+  //   opt0: "",
+  //   opt1: "",
+  //   opt2: "",
+  //   opt3: "",
+  // });
+  let i = questions.findIndex((e) => e.id === id);
 
   const handleChange = (value, type) => {
+    let updatedQuestions;
     switch (type) {
       case "que":
-        setQue({ ...que, text: value });
+        updatedQuestions = [...questions];
+        updatedQuestions[i].text = value;
+        setQuestions(updatedQuestions);
         break;
       case "opt0":
-        setQue({ ...que, opt0: value });
+        updatedQuestions = [...questions];
+        updatedQuestions[i].options[0] = value;
+        setQuestions(updatedQuestions);
         break;
       case "opt1":
-        setQue({ ...que, opt1: value });
+        updatedQuestions = [...questions];
+        updatedQuestions[i].options[1] = value;
+        setQuestions(updatedQuestions);
         break;
       case "opt2":
-        setQue({ ...que, opt2: value });
+        updatedQuestions = [...questions];
+        updatedQuestions[i].options[2] = value;
+        setQuestions(updatedQuestions);
         break;
       case "opt3":
-        setQue({ ...que, opt3: value });
+        updatedQuestions = [...questions];
+        updatedQuestions[i].options[3] = value;
+        setQuestions(updatedQuestions);
         break;
 
       default:
@@ -44,15 +56,16 @@ export const MultipleChoice = ({
     }
   };
 
-  useEffect(() => {
-    setQuestions(
-      (questions) =>
-        (questions[que.id] = {
-          text: que.text,
-          options: [que.opt0, que.opt1, que.opt2, que.opt3],
-        })
-    );
-  }, [que]);
+  // useEffect(() => {
+  //   setQuestions((questions) => {
+  //     questions?.forEach((q) => {
+  //       if (q.id === que.id) {
+  //         q.text = que.text;
+  //         q.options = [que.opt0, que.opt1, que.opt2, que.opt3];
+  //       }
+  //     });
+  //   });
+  // }, [que]);
 
   return (
     <div
@@ -74,7 +87,7 @@ export const MultipleChoice = ({
         </svg>
       </button>
       <input
-        value={que?.text}
+        value={questions[i].text}
         onChange={(e) => handleChange(e.target.value, "que")}
         className='h-12 p-3 mt-4 mb-6 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
         placeholder='Type your question here...'
@@ -83,7 +96,7 @@ export const MultipleChoice = ({
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='a' />
           <input
-            value={que?.opt0 || ""}
+            value={questions[i].options[0] || ""}
             onChange={(e) => handleChange(e.target.value, "opt0")}
             type='text'
             className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
@@ -93,7 +106,7 @@ export const MultipleChoice = ({
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='b' />
           <input
-            value={que?.opt1 || ""}
+            value={questions[i].options[1] || ""}
             onChange={(e) => handleChange(e.target.value, "opt1")}
             type='text'
             className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
@@ -103,7 +116,7 @@ export const MultipleChoice = ({
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='c' />
           <input
-            value={que?.opt2 || ""}
+            value={questions[i].options[2] || ""}
             onChange={(e) => handleChange(e.target.value, "opt2")}
             type='text'
             className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
@@ -113,7 +126,7 @@ export const MultipleChoice = ({
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
           <input type='radio' name='q1' value='d' />
           <input
-            value={que?.opt3 || ""}
+            value={questions[i].options[3] || ""}
             onChange={(e) => handleChange(e.target.value, "opt3")}
             type='text'
             className='h-8 p-2 mr-2 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'

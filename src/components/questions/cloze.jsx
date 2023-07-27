@@ -54,9 +54,9 @@ const ClozeQuestion = ({ content, image }) => {
     });
   };
 
-  useEffect(() => {
-    console.log(blank);
-  }, [blank]);
+  const handleAddOption = () => {
+    setBlanks([...blank, ""]);
+  };
 
   return (
     <div className='m-4 grid grid-flow-row gap-4'>
@@ -116,7 +116,7 @@ const ClozeQuestion = ({ content, image }) => {
       <label className='block mt-4'>
         <div className='text-gray-700 flex flex-row items-center justify-between'>
           Options{" "}
-          <button onClick={() => blank.push("    ")}>
+          <button onClick={handleAddOption}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -135,14 +135,17 @@ const ClozeQuestion = ({ content, image }) => {
         <ol className='w-full flex flex-col flex-wrap items-start justify-start gap-2 list-decimal mx-4'>
           {blank.map((b, i) => (
             <li>
-              <button
+              <input
                 id={i}
-                type='button'
-                contentEditable={true}
+                value={b}
+                onChange={(e) => {
+                  const updatedBlank = [...blank];
+                  updatedBlank[i] = e.target.value;
+                  setBlanks(updatedBlank);
+                }}
+                type='text'
                 className='px-2 py-1 border-2 border-gray-800 rounded-md'
-                onClick={() => console.log("yay")}>
-                {b}
-              </button>
+              />
             </li>
           ))}
         </ol>

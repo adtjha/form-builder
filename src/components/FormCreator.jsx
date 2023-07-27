@@ -1,10 +1,3 @@
-/**
- * Creator form,
- *
- * editable question input
- * editable answer tab
- * save button
- */
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,7 +12,7 @@ const FormatQuestion = ({ q }) => {
         <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
           <div className='w-full border border-gray-200'>{q.question}</div>
           <div className='w-full grid grid-cols-2 gap-2'>
-            {q?.mcq?.options?.map((e, index) => {
+            {q?.options?.map((e, index) => {
               // Use index to determine which column the option should be placed in
               const column = index % 2 === 0 ? 1 : 2;
 
@@ -41,17 +34,14 @@ const FormatQuestion = ({ q }) => {
         <>
           <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
             <div>{q.paragraph}</div>
-            <div>
-              {Object.keys(q.mcq).map((m) => {
-                <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
-                  <div className='w-full border border-gray-200'>
-                    {q.mcq["text"]}
-                  </div>
-                  <div className='grid grid-cols-2 gap-2'>
-                    {q.mcq["options"]?.map((e, index) => {
+            <div className='w-full px-2 mt-2'>
+              {q?.mcq?.map((m) => (
+                <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly bg-gray-200 rounded-lg'>
+                  <div className='w-full'>{m["text"]}</div>
+                  <div className='w-full grid grid-cols-2 gap-2'>
+                    {m["options"]?.map((e, index) => {
                       // Use index to determine which column the option should be placed in
                       const column = index % 2 === 0 ? 1 : 2;
-
                       return (
                         <label
                           className={`w-full flex flex-row items-center justify-start my-2 gap-2 col-${column}`}>
@@ -61,8 +51,8 @@ const FormatQuestion = ({ q }) => {
                       );
                     })}
                   </div>
-                </div>;
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </>
@@ -102,7 +92,7 @@ export const FormCreator = () => {
         Form Creator
         <span className='text-xs text-gray-400'>{formId}</span>
       </h1>
-      {questions.map((q) => (
+      {questions?.map((q) => (
         <FormatQuestion q={q} />
       ))}
       <AddQuestion />
