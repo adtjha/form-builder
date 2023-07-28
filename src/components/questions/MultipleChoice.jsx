@@ -94,7 +94,7 @@ export const MultipleChoice = ({
       />
       <div className='grid grid-cols-2 gap-4'>
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
-          <input type='radio' name='q1' value='a' />
+          <input type='checkbox' name='q1' value='a' />
           <input
             value={questions[i].options[0] || ""}
             onChange={(e) => handleChange(e.target.value, "opt0")}
@@ -104,7 +104,7 @@ export const MultipleChoice = ({
           />
         </label>
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
-          <input type='radio' name='q1' value='b' />
+          <input type='checkbox' name='q1' value='b' />
           <input
             value={questions[i].options[1] || ""}
             onChange={(e) => handleChange(e.target.value, "opt1")}
@@ -114,7 +114,7 @@ export const MultipleChoice = ({
           />
         </label>
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
-          <input type='radio' name='q1' value='c' />
+          <input type='checkbox' name='q1' value='c' />
           <input
             value={questions[i].options[2] || ""}
             onChange={(e) => handleChange(e.target.value, "opt2")}
@@ -124,7 +124,7 @@ export const MultipleChoice = ({
           />
         </label>
         <label className='w-full flex flex-row items-center justify-center my-2 gap-2'>
-          <input type='radio' name='q1' value='d' />
+          <input type='checkbox' name='q1' value='d' />
           <input
             value={questions[i].options[3] || ""}
             onChange={(e) => handleChange(e.target.value, "opt3")}

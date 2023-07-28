@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ClozeQuestion = ({ content, image }) => {
   const [sentence, setSentence] = useState();
@@ -8,6 +8,7 @@ const ClozeQuestion = ({ content, image }) => {
   const [question, setQuestion] = useState();
 
   const dispatch = useDispatch();
+  const formId = useSelector((state) => state.forms.forms.id);
 
   const handleSentence = (e) => {
     setWords(e.target.value.split(" "));
@@ -50,6 +51,7 @@ const ClozeQuestion = ({ content, image }) => {
         type: "cloze",
         question: question,
         options: blank,
+        formId: formId,
       },
     });
   };
