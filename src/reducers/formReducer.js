@@ -7,7 +7,10 @@ const DELETE_FORM = 'DELETE_FORM';
 
 // Initial State
 const initialState = {
-    forms: [],
+    forms: {
+        id: "",
+        created: false
+    }
 };
 
 // Reducer
@@ -15,20 +18,24 @@ const formReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_FORM:
             return {
-                ...state,
-                forms: [...state.forms, action.payload],
-            };
+                forms: {
+                    id: action.payload.id,
+                    created: true
+                }
+            }
         case UPDATE_FORM:
             return {
-                ...state,
-                forms: state.forms.map((form) =>
-                    form._id === action.payload._id ? action.payload : form
-                ),
+                forms: {
+                    id: action.payload.id,
+                    created: true,
+                }
             };
         case DELETE_FORM:
             return {
-                ...state,
-                forms: state.forms.filter((form) => form._id !== action.payload),
+                forms: {
+                    id: "",
+                    created: false,
+                }
             };
         default:
             return state;
