@@ -5,8 +5,6 @@ import CategorizeQuestion from "./questions/categorize";
 import { useDispatch, useSelector } from "react-redux";
 import parser, { encodeData } from "./parser";
 import axios from "axios";
-import { db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
 
 export const AddQuestion = () => {
   // Access the dispatch function using useDispatch
@@ -38,7 +36,7 @@ export const AddQuestion = () => {
     const data = encodeData(Object.values(questions)[0]);
     console.log(data);
     for (let d in data) {
-      await axios.post("http://127.0.0.1:5000/api/questions", {
+      await axios.post("https://saveform-dyrphw67va-uc.a.run.app", {
         type: data[d].type,
         content: JSON.stringify(data[d].content),
         formId: data[d].content.formId,

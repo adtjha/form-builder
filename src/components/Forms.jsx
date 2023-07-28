@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 export const Forms = () => {
   const [questions, setQuestions] = useState();
   useEffect(() => {
-    fetch("http://192.168.92.1:5000/api/forms", {
+    fetch("https://getallforms-dyrphw67va-uc.a.run.app", {
       method: "GET",
       redirect: "follow",
     })
       .then((response) => response.json())
-      .then((result) => setQuestions(result))
+      // .then((result) => setQuestions(result))
+      .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
   }, []);
 
