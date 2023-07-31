@@ -9,6 +9,7 @@ const DELETE_FORM = 'DELETE_FORM';
 const initialState = {
     forms: {
         id: "",
+        name: "",
         created: false
     }
 };
@@ -20,6 +21,7 @@ const formReducer = (state = initialState, action) => {
             return {
                 forms: {
                     id: action.payload.id,
+                    name: action.payload.name,
                     created: true
                 }
             }
@@ -27,6 +29,7 @@ const formReducer = (state = initialState, action) => {
             return {
                 forms: {
                     id: action.payload.id,
+                    name: action.payload.name,
                     created: true,
                 }
             };
@@ -34,6 +37,7 @@ const formReducer = (state = initialState, action) => {
             return {
                 forms: {
                     id: "",
+                    name: "",
                     created: false,
                 }
             };

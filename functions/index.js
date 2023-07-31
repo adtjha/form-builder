@@ -55,42 +55,39 @@ exports.saveForm = onRequest((req, res) => {
         });
 
     res.send(resp)
+    // res.send({ message: "Saved the data" })
 });
 
 
 exports.getAllForms = onRequest(async (req, res) => {
     let resp;
-    // axios({
-    //     method: "get",
-    //     url: `https://ap-south-1.aws.data.mongodb-api.com/app/data-fstpb/endpoint/data/v1/action/findOne`,
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Access-Control-Request-Headers': '*',
-    //         'api-key': 'juQNoAzrPEHNqtU9trAWTQQANeOJsrhIsAGZM9yGHChixeUJH4GZQmSEMQj3seDT',
-    //     },
-    // })
-    //     .then(function (response) {
-    //         resp = JSON.stringify(response.data);
-    //     })
-    //     .catch(function (error) {
-    //         resp = error;
-    //     });
-
-    const response = await axios.post(
-        'https://data.mongodb-api.com/app//endpoint/data/v1/action/find',
-        {
-            dataSource: "FormBuilder",
-            database: "Production",
-            collection: "forms",
-            filter: {}
+    axios({
+        method: "get",
+        url: `https://ap-south-1.aws.data.mongodb-api.com/app/data-fstpb/endpoint/data/v1/action/find`,
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'api-key': 'juQNoAzrPEHNqtU9trAWTQQANeOJsrhIsAGZM9yGHChixeUJH4GZQmSEMQj3seDT',
         },
-        {
-            headers: {
-                'Content-Type': 'application/ejson',
-                'Access-Control-Request-Headers': '*',
-                'api-key': 'juQNoAzrPEHNqtU9trAWTQQANeOJsrhIsAGZM9yGHChixeUJH4GZQmSEMQj3seDT'
-            }
-        }
-    );
-    res.send(response)
+        data: { dataSource: "FormBuilder", database: "Production", collection: "forms", filter: {} }
+    })
+        .then(function (response) {
+            resp = JSON.stringify(response.data);
+        })
+        .catch(function (error) {
+            resp = error;
+        });
+
+    // const response = await axios.post(
+    //     'https://ap-south-1.aws.data.mongodb-api.com/app/data-fstpb/endpoint/data/v1/action/find',
+    //     { "dataSource": "FormBuilder", "database": "Production", "collection": "forms", "filter": {} },
+    //     {
+    //         headers: {
+    //             'Content-Type': 'application/ejson',
+    //             'Access-Control-Request-Headers': '*',
+    //             'api-key': 'juQNoAzrPEHNqtU9trAWTQQANeOJsrhIsAGZM9yGHChixeUJH4GZQmSEMQj3seDT'
+    //         }
+    //     }
+    // );
+    res.send({ resp })
 });

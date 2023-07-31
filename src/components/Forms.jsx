@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 export const Forms = () => {
   const [questions, setQuestions] = useState();
   useEffect(() => {
-    fetch("https://getallforms-dyrphw67va-uc.a.run.app", {
+    fetch("https://cautious-top-coat-tuna.cyclic.cloud", {
       method: "GET",
       redirect: "follow",
+      mode: "no-cors",
     })
       .then((response) => response.json())
       // .then((result) => setQuestions(result))

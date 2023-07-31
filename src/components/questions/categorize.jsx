@@ -76,7 +76,7 @@ const CategorizeQuestion = ({ content, image }) => {
 
   return (
     <div>
-      <div className='m-4 grid grid-cols-2 gap-4'>
+      <div className='w-full grid grid-cols-2 gap-4'>
         {/* {image && <img src={image} alt="Question Image" />} */}
         <label className='block'>
           <span className='text-gray-700'>Item</span>
@@ -106,9 +106,22 @@ const CategorizeQuestion = ({ content, image }) => {
         </svg>
       </button>
       <button
-        className='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
+        className='w-full px-4 bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md flex flex-row items-center justify-center gap-4'
         onClick={handleSave}>
-        Save
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='w-6 h-6'>
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M12 4.5v15m7.5-7.5h-15'
+          />
+        </svg>
+        Add Question
       </button>
     </div>
   );

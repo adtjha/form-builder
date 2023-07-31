@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { MultipleChoice } from "./MultipleChoice";
 import { useDispatch, useSelector } from "react-redux";
 
-const ImageToBase64Converter = ({ base64Image, setBase64Image }) => {
+export const ImageToBase64Converter = ({ base64Image, setBase64Image }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -87,7 +87,7 @@ const ComprehensionQuestion = () => {
   const [image, setImage] = useState(false);
 
   return (
-    <div className='m-4 w-11/12'>
+    <div className='w-full mt-4 gap-6'>
       <label className='block'>
         <div className='flex flex-row justify-between items-center flex-wrap'>
           <button
@@ -132,9 +132,22 @@ const ComprehensionQuestion = () => {
       </div>
 
       <button
-        className='w-full bg-gray-100 hover:bg-gray-300 font-semibold text-lg m-auto py-4 border border-gray-50 rounded-bl-md'
+        className='w-full px-4 py-6 bg-gray-100 hover:bg-gray-300 rounded-md flex flex-row items-center justify-center gap-4'
         onClick={handleSave}>
-        Save
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth={1.5}
+          stroke='currentColor'
+          className='w-4 h-4'>
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M12 4.5v15m7.5-7.5h-15'
+          />
+        </svg>
+        Add Question
       </button>
     </div>
   );
