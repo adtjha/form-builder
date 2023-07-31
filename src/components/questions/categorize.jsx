@@ -72,6 +72,12 @@ const CategorizeQuestion = ({ content, image }) => {
         formId: formId,
       },
     });
+    reset();
+  };
+
+  const reset = () => {
+    setItem([{ id: uid, val: "" }]);
+    setBelong([{ id: uid, val: "" }]);
   };
 
   return (

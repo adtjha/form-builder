@@ -82,6 +82,19 @@ const ComprehensionQuestion = () => {
         formId: formId,
       },
     });
+    reset();
+  };
+
+  const reset = () => {
+    setBase64Image("");
+    setPara("");
+    setQuestions([
+      {
+        id: uid,
+        text: "",
+        options: ["", "", "", ""],
+      },
+    ]);
   };
 
   const [image, setImage] = useState(false);
