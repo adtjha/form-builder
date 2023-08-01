@@ -19,7 +19,7 @@ export const Answer = () => {
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
-        "https://cautious-top-coat-tuna.cyclic.cloud/api/questions"
+        `https://cautious-top-coat-tuna.cyclic.cloud/api/questions/${formId.formId}`
       ); // Replace with your API URL
       questions.length === 0 && setQuestions(decodeData(response.data)); // Assuming the API returns an array of data
     } catch (error) {
