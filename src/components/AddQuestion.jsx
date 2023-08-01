@@ -5,29 +5,18 @@ import CategorizeQuestion from "./questions/categorize";
 import { useSelector } from "react-redux";
 import { encodeData } from "./parser";
 import axios from "axios";
+import { notify } from "./notify";
+import { ToastContainer } from "react-toastify";
 
 export const AddQuestion = () => {
-  // Access the dispatch function using useDispatch
-  // const db = getFirestore();
-
   const questions = useSelector((state) => state.questions);
-
   const formId = useSelector((state) => state.forms.forms.id);
   const formName = useSelector((state) => state.forms.forms.name);
   const formHeaderImage = useSelector((state) => state.forms.forms.image);
 
   console.log({ formId, type: "AddQuestion" });
 
-  const [open, setOpen] = useState(false);
-
   const [questionType, setQuestionType] = useState("cloze");
-
-  const handleOpenClick = () => {
-    setOpen(true);
-  };
-  const handleCloseClick = () => {
-    setOpen(false);
-  };
 
   const handleQuestionType = (e) => {
     setQuestionType(e.target.value);
@@ -49,22 +38,22 @@ export const AddQuestion = () => {
       );
       questionIdsArray.push(resp.data._id);
       console.log({ ...data[d] });
+      notify("Questions saved to MongoDB successfully.");
     }
-    const resp = await axios.post(
-      "https://cautious-top-coat-tuna.cyclic.cloud/api/forms",
-      {
-        title: formName || "",
-        headerImage:
-          formHeaderImage ||
-          `https://api.dicebear.com/6.x/pixel-art/svg?seed=${formId}`,
-        questions: [...questionIdsArray],
-        formId: formId,
-      }
-    );
+    await axios.post("https://cautious-top-coat-tuna.cyclic.cloud/api/forms", {
+      title: formName || "",
+      headerImage:
+        formHeaderImage ||
+        `https://api.dicebear.com/6.x/pixel-art/svg?seed=${formId}`,
+      questions: [...questionIdsArray],
+      formId: formId,
+    });
+    notify("Form published successfully.");
   };
 
   return (
     <div className='flex flex-col items-start justify-evenly gap-4'>
+      <ToastContainer />
       {/* {open && ( */}
       <div className='w-full bg-gray-50 overflow-hidden p-8 border-2 border-dashed border-gray-300 rounded-lg'>
         <div className=' flex flex-row items-center justify-around'>

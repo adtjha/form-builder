@@ -1,24 +1,23 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { notify } from "./notify";
+import { ToastContainer } from "react-toastify";
 
 export const Forms = () => {
   const [forms, setForms] = useState();
   useEffect(() => {
-    // fetch("https://cautious-top-coat-tuna.cyclic.cloud/api/forms", {
-    //   method: "GET",
-    //   redirect: "follow",
-    //   mode: "no-cors",
-    // })
-
     axios
       .get("https://cautious-top-coat-tuna.cyclic.cloud/api/forms")
       .then((result) => setForms(result.data))
       .catch((error) => console.log("error", error));
+
+    notify("Fetched forms successfully.");
   }, []);
 
   return (
     <>
+      <ToastContainer />
       <h1 className='text-lg font-medium text-center mb-4'>
         Forms Created by User
       </h1>

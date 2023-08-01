@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FormatQuestion } from "./FormatQuestion";
 import { decodeData } from "./parser";
+import { notify } from "./notify";
+import { ToastContainer } from "react-toastify";
 
 export const Answer = () => {
   const formId = useParams("formId");
@@ -19,6 +21,7 @@ export const Answer = () => {
       ); // Replace with your API URL
       questions.length === 0 && setQuestions(decodeData(response.data)); // Assuming the API returns an array of data
     } catch (error) {
+      notify("Error fetching questions data.");
       console.error("Error fetching questions data:", error);
     }
   };
@@ -29,8 +32,10 @@ export const Answer = () => {
         "https://cautious-top-coat-tuna.cyclic.cloud/api/forms"
       );
       forms.length === 0 && setForms(response.data[0]);
+
       // console.log(forms);
     } catch (error) {
+      notify("Error in fetching forms.");
       console.error("Error fetching forms data:", error);
     }
   };
@@ -38,10 +43,12 @@ export const Answer = () => {
   useEffect(() => {
     fetchQuestions();
     fetchForms();
+    notify("Fetch forms successful.");
   }, []);
   // store user response,
   return (
     <div className='relative'>
+      <ToastContainer />
       <Link
         to='/'
         className='absolute top-10 left-10 rounded-lg px-4 py-2 cursor-pointer hover:border border-gray-800 flex flex-row items-center justify-evenly gap-2'>
