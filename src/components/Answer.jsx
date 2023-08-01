@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FormatQuestion } from "./FormatQuestion";
 import { decodeData } from "./parser";
 import { notify } from "./notify";
 import { ToastContainer } from "react-toastify";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 export const Answer = () => {
   const formId = useParams("formId");
   const [questions, setQuestions] = useState([]);
   const [forms, setForms] = useState([]);
+  const navigate = useNavigate();
 
   console.log(formId);
   // get form from server,
@@ -45,6 +47,18 @@ export const Answer = () => {
     fetchForms();
     notify("Fetch forms successful.");
   }, []);
+
+  const submitResponse = async () => {
+    console.log("====================================");
+    console.log(questions);
+    console.log("====================================");
+    notify("Response submit successful.");
+    await new Promise((resolve, reject) => {
+      setTimeout(resolve, 1500);
+    });
+    navigate("/");
+  };
+
   // store user response,
   return (
     <div className='relative'>
@@ -84,6 +98,12 @@ export const Answer = () => {
 
         <div className='grid grid-cols-1 gap-8'>
           {questions && questions.map((q) => FormatQuestion({ q }))}
+
+          <button
+            className='m-auto mt-4 py-2 px-4 bg-slate-300 text-slate-900 hover:rounded-md'
+            onClick={submitResponse}>
+            Submit
+          </button>
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ export const Forms = () => {
             className='p-4 rounded-full text-gray-500 hover:text-gray-800'>
             <div
               key={e.id}
-              className='w-[640px] bg-[aliceblue] hover:bg-cyan-50 shadow-sm hover:shadow-lg rounded-lg p-4 flex flex-row items-center justify-between'>
+              className='w-full lg:w-[640px] bg-[aliceblue] hover:bg-cyan-50 shadow-sm hover:shadow-lg rounded-lg p-4 flex flex-row items-center justify-between'>
               <div className='flex flex-col items-start justify-start'>
                 <h1 className='text-xl font-bold'>{e.title}</h1>
                 <p>{e.description}</p>
