@@ -13,6 +13,8 @@ export const AddQuestion = () => {
   const questions = useSelector((state) => state.questions);
 
   const formId = useSelector((state) => state.forms.forms.id);
+  const formName = useSelector((state) => state.forms.forms.name);
+  const formHeaderImage = useSelector((state) => state.forms.forms.image);
 
   console.log({ formId, type: "AddQuestion" });
 
@@ -34,21 +36,29 @@ export const AddQuestion = () => {
   const handlePublish = async () => {
     console.log(questions);
     const data = encodeData(Object.values(questions)[0]);
+    let questionIdsArray = [];
     console.log(data);
     for (let d in data) {
-      await axios.post(
-        "https://cautious-top-coat-tuna.cyclic.cloud",
+      const resp = await axios.post(
+        "https://cautious-top-coat-tuna.cyclic.cloud/api/questions",
         {
           type: data[d].type,
           content: JSON.stringify(data[d].content),
           formId: data[d].content.formId,
-        },
-        {
-          withCredentials: false,
         }
       );
+      questionIdsArray.push(resp.data._id);
       console.log({ ...data[d] });
     }
+    const resp = await axios.post(
+      "https://cautious-top-coat-tuna.cyclic.cloud/api/forms",
+      {
+        title: formName || "",
+        headerImage: formHeaderImage || "",
+        questions: [...questionIdsArray],
+        formId: formId,
+      }
+    );
   };
 
   return (

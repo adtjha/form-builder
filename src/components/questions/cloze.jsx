@@ -69,8 +69,9 @@ const ClozeQuestion = ({ content, image }) => {
   };
 
   const removeBlank = (e) => {
-    console.log(e.target.id);
-    // setBlanks(blank.filter((b, i) => e.target.id !== i));
+    console.log(e.target.parentElement.parentElement.id);
+    let n = Number(e.target.parentElement.parentElement.id);
+    setBlanks(blank.filter((b, i) => n !== i));
   };
 
   return (
@@ -129,7 +130,7 @@ const ClozeQuestion = ({ content, image }) => {
         />
       </label>
       <label className='block mt-4'>
-        <div className='text-gray-700 flex flex-row items-center justify-between'>
+        <div className='text-gray-700 flex flex-row items-center justify-start gap-4'>
           Options{" "}
           <button className='w-fit h-fit' onClick={handleAddOption}>
             <svg
