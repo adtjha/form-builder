@@ -31,7 +31,7 @@ export const Answer = () => {
   const fetchForms = async () => {
     try {
       const response = await axios.get(
-        "https://cautious-top-coat-tuna.cyclic.cloud/api/forms"
+        `https://cautious-top-coat-tuna.cyclic.cloud/api/forms/${formId}`
       );
       forms.length === 0 && setForms(response.data[0]);
 
@@ -43,8 +43,8 @@ export const Answer = () => {
   };
 
   useEffect(() => {
-    fetchQuestions();
     fetchForms();
+    fetchQuestions();
     notify("Fetch forms successful.");
   }, []);
 
