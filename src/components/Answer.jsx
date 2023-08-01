@@ -31,7 +31,7 @@ export const Answer = () => {
   const fetchForms = async () => {
     try {
       const response = await axios.get(
-        `https://cautious-top-coat-tuna.cyclic.cloud/api/forms/${formId}`
+        `https://cautious-top-coat-tuna.cyclic.cloud/api/forms/${formId.formId}`
       );
       forms.length === 0 && setForms(response.data[0]);
 
