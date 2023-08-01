@@ -6,7 +6,7 @@ export const FormatQuestion = ({ q }) => {
   switch (q.type) {
     case "cloze":
       return (
-        <div className='w-full p-4 flex flex-col items-center justify-evenly gap-4 border-2 border-gray-600 rounded-lg'>
+        <div className='w-full p-4 flex flex-col items-center justify-evenly gap-4 border-2 border-gray-300 rounded-lg'>
           <div className='w-full'>{q.question}</div>
           <div className='w-full grid grid-cols-2 gap-2'>
             {q?.options?.map((e, index) => {
@@ -45,7 +45,7 @@ export const FormatQuestion = ({ q }) => {
       all = shuffle(all);
       return (
         <>
-          <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
+          <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-300 rounded-lg'>
             {/* Render the draggable elements */}
             <div className='grid grid-cols-4 items-center justify-evenly gap-2'>
               {all.map((e, index) => (
@@ -62,7 +62,7 @@ export const FormatQuestion = ({ q }) => {
 
             {/* Render the drop area */}
             <div
-              className='mt-4 w-full grid grid-cols-2 gap-2 justify-items-center p-4 border border-gray-600 rounded-lg'
+              className='mt-4 w-full grid grid-cols-2 gap-2 justify-items-center p-4 border border-gray-300 rounded-lg'
               onDragOver={dragOverHandler}
               onDrop={dropHandler}>
               {new Array(len * 2).fill("").map((e, index) => (
@@ -77,7 +77,7 @@ export const FormatQuestion = ({ q }) => {
     case "comprehension":
       return (
         <>
-          <div className='w-full max-w-full m-auto p-8 gap-8 flex flex-col items-center justify-evenly border-2 border-gray-600 rounded-lg'>
+          <div className='w-full max-w-full m-auto p-8 gap-8 flex flex-col items-center justify-evenly border-2 border-gray-300 rounded-lg'>
             {q.img && (
               <img
                 className='w-full m-auto'

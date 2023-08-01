@@ -5,7 +5,7 @@ export const decodeData = (encodedData) => {
     // Iterate through the encoded data
     encodedData.forEach((item) => {
         const { type, content } = item;
-        const originalObject = { type, ...content };
+        const originalObject = { type, ...JSON.parse(content) };
         decodedData.push(originalObject);
     });
 

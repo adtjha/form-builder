@@ -54,7 +54,9 @@ export const AddQuestion = () => {
       "https://cautious-top-coat-tuna.cyclic.cloud/api/forms",
       {
         title: formName || "",
-        headerImage: formHeaderImage || "",
+        headerImage:
+          formHeaderImage ||
+          `https://api.dicebear.com/6.x/pixel-art/svg?seed=${formId}`,
         questions: [...questionIdsArray],
         formId: formId,
       }
