@@ -21,7 +21,7 @@ const Item = ({ id, item, setItem }) => {
     />
   );
 };
-const BelongsTo = ({ id, belong, setBelong }) => {
+const BelongsTo = ({ id, belong, setBelong, categories }) => {
   let i = belong.findIndex((e) => e.id === id);
 
   const handleChange = (e) => {
@@ -30,15 +30,22 @@ const BelongsTo = ({ id, belong, setBelong }) => {
     setBelong(obj);
   };
 
+  // return (
+  //   <input
+  //     id={id}
+  //     value={belong[i].val}
+  //     onChange={handleChange}
+  //     type='text'
+  //     className='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+  //     placeholder='Type your question here...'
+  //   />
+  // );
   return (
-    <input
-      id={id}
-      value={belong[i].val}
-      onChange={handleChange}
-      type='text'
-      className='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
-      placeholder='Type your question here...'
-    />
+    <select class='block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
+      {categories.map((c) => (
+        <option>{c}</option>
+      ))}
+    </select>
   );
 };
 
@@ -46,6 +53,7 @@ const CategorizeQuestion = ({ content, image }) => {
   const uid = uuidv4(); // unique uid for eac
   const [item, setItem] = useState([{ id: uid, val: "" }]);
   const [belong, setBelong] = useState([{ id: uid, val: "" }]);
+  const [categories, SetCategories] = useState([""]);
 
   const dispatch = useDispatch();
   const formId = useSelector((state) => state.forms.forms.id);
@@ -80,8 +88,69 @@ const CategorizeQuestion = ({ content, image }) => {
     setBelong([{ id: uid, val: "" }]);
   };
 
+  const handleChange = (index, event) => {
+    const updatedCategories = [...categories];
+    updatedCategories[index] = event.target.value;
+    SetCategories(updatedCategories);
+  };
+
+  const removeCategory = (e) => {
+    const updatedCategories = [...categories];
+    updatedCategories.splice(e, 1);
+    SetCategories(updatedCategories);
+  };
+
   return (
-    <div>
+    <div className='mt-10 flex flex-col items-start justify-evenly gap-8'>
+      <div className='w-full'>
+        <div className='w-full flex flex-row items-center justify-evenly gap-2'>
+          <label htmlFor='categories'>Categories</label>
+          <button
+            className='w-full'
+            onClick={() => SetCategories([...categories, ""])}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='w-6 h-6 text-slate-500 hover:text-slate-600 '>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
+            </svg>
+          </button>
+        </div>
+        {categories.length > 0 &&
+          categories.map((e, i) => (
+            <div className='mb-4 flex flex-row items-center justify-between'>
+              <input
+                id='categories'
+                value={categories[i]}
+                onChange={(e) => handleChange(i, e)}
+                type='text'
+                className='h-12 p-3 mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+                placeholder='Categories'
+              />
+              <svg
+                onClick={() => removeCategory(i)}
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='currentColor'
+                className='ml-4 w-6 h-6'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+                />
+              </svg>
+            </div>
+          ))}
+      </div>
       <div className='w-full grid grid-cols-2 gap-4'>
         {/* {image && <img src={image} alt="Question Image" />} */}
         <label className='block'>
@@ -93,7 +162,12 @@ const CategorizeQuestion = ({ content, image }) => {
         <label className='block'>
           <span className='text-gray-700'>Belongs to</span>
           {belong?.map((e, i, belong) => (
-            <BelongsTo id={e.id} belong={belong} setBelong={setBelong} />
+            <BelongsTo
+              id={e.id}
+              belong={belong}
+              setBelong={setBelong}
+              categories={categories}
+            />
           ))}
         </label>
         {/* Additional logic and UI elements specific to Categorize questions can be added here */}
