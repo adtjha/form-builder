@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MultipleChoice } from "./MultipleChoice";
 import { useDispatch, useSelector } from "react-redux";
+import { storage } from "../../firebase";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 export const ImageToBase64Converter = ({ base64Image, setBase64Image }) => {
   const handleImageChange = (e) => {
@@ -72,17 +74,26 @@ const ComprehensionQuestion = () => {
 
   const handleSave = () => {
     console.log("Save Comprehension");
-    dispatch({
-      type: "ADD_QUESTION",
-      payload: {
-        type: "comprehension",
-        paragraph: para,
-        img: base64Image,
-        mcq: questions,
-        formId: formId,
-      },
+
+    const storageRef = ref(storage, `question_${formId}`);
+    // upoad image to firebase storage.
+    uploadString(storageRef, base64Image, "data_url").then((snapshot) => {
+      console.log("Uploaded a base64 string!", snapshot);
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log("File available at", downloadURL);
+        dispatch({
+          type: "ADD_QUESTION",
+          payload: {
+            type: "comprehension",
+            paragraph: para,
+            img: downloadURL,
+            mcq: questions,
+            formId: formId,
+          },
+        });
+        reset();
+      });
     });
-    reset();
   };
 
   const reset = () => {

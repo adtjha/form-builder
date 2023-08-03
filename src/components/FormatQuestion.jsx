@@ -40,17 +40,17 @@ export const FormatQuestion = ({ q }) => {
         const draggedElement = document.getElementById(data);
         ev.target.appendChild(draggedElement);
       };
-      let all = [...q.item.map((e) => e.val), ...q.belong.map((e) => e.val)];
+      let all = [...q.item.map((e) => e.val)];
       const len = q.item.length;
       all = shuffle(all);
       return (
         <>
-          <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly border-2 border-gray-300 rounded-lg'>
+          <div className='w-full max-w-md m-auto p-4 flex flex-col items-center justify-evenly rounded-lg'>
             {/* Render the draggable elements */}
             <div className='grid grid-cols-4 items-center justify-evenly gap-2'>
               {all.map((e, index) => (
                 <div
-                  className='bg-gray-300 p-2 rounded-md text-center cursor-grab'
+                  className='border border-dashed border-stone-800 my-2 p-2 rounded-md text-center cursor-grab'
                   draggable
                   onDragStart={dragStartHandler}
                   id={`drag-${index}`} // Set a unique id for each draggable element
@@ -65,10 +65,15 @@ export const FormatQuestion = ({ q }) => {
               className='mt-4 w-full grid grid-cols-2 gap-2 justify-items-center p-4 border border-gray-300 rounded-lg'
               onDragOver={dragOverHandler}
               onDrop={dropHandler}>
-              {new Array(len * 2).fill("").map((e, index) => (
+              {q.categories.map((e, index) => (
                 <div
                   key={`drop-${index}`} // Set a unique key for each drop area
-                  className='bg-gray-300 h-auto w-full text-center p-2 rounded-md'></div>
+                  className={`bg-gray-300 w-full text-center p-2 rounded-md`}
+                  style={{
+                    height: `${q.item.length * 48}px`,
+                  }}>
+                  {e}
+                </div>
               ))}
             </div>
           </div>

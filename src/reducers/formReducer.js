@@ -9,7 +9,7 @@ const DELETE_FORM = 'DELETE_FORM';
 const initialState = {
     forms: {
         id: "",
-        name: "",
+        name: `Form ${~~(Math.random() * 100000)}`,
         created: false
     }
 };

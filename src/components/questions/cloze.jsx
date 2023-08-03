@@ -69,9 +69,9 @@ const ClozeQuestion = ({ content, image }) => {
   };
 
   const removeBlank = (e) => {
-    console.log(e.target.parentElement.parentElement.id);
-    let n = Number(e.target.parentElement.parentElement.id);
-    setBlanks(blank.filter((b, i) => n !== i));
+    const updatedBlanks = [...blank];
+    updatedBlanks.splice(e, 1);
+    setBlanks(...updatedBlanks);
   };
 
   return (
@@ -168,7 +168,7 @@ const ClozeQuestion = ({ content, image }) => {
                 type='text'
                 className='px-2 py-1 border-2 border-gray-800 rounded-md'
               />
-              <button onClick={(i) => removeBlank(i)}>
+              <button onClick={() => removeBlank(i)}>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'

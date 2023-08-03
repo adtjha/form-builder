@@ -41,7 +41,7 @@ const BelongsTo = ({ id, belong, setBelong, categories }) => {
   //   />
   // );
   return (
-    <select class='block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
+    <select class='block h-12 w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
       {categories.map((c) => (
         <option>{c}</option>
       ))}
@@ -76,7 +76,7 @@ const CategorizeQuestion = ({ content, image }) => {
       payload: {
         type: "categorize",
         item: item,
-        belong: belong,
+        categories: categories,
         formId: formId,
       },
     });
@@ -86,6 +86,7 @@ const CategorizeQuestion = ({ content, image }) => {
   const reset = () => {
     setItem([{ id: uid, val: "" }]);
     setBelong([{ id: uid, val: "" }]);
+    SetCategories([]);
   };
 
   const handleChange = (index, event) => {
