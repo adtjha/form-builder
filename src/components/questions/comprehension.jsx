@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { MultipleChoice } from "./MultipleChoice";
 import { useDispatch, useSelector } from "react-redux";
 import { storage } from "../../firebase";
@@ -135,13 +135,15 @@ const ComprehensionQuestion = () => {
             value={para}
             onChange={(e) => setPara(e.target.value)}
             type='text'
-            className='h-12 p-3 mt-4 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
+            className='h-24 p-3 my-4 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0'
             placeholder='Type your comprehension here...'
           />
         )}
       </label>
       <button className='block mt-4' onClick={addQuestion}>
-        <span className='text-gray-700'>Add Questions</span>
+        <span className=' py-2 px-4 text-gray-700 border border-gray-200 rounded-md hover:bg-gray-300'>
+          Add comprehension question
+        </span>
       </button>
       <div className='p-2 mt-4 flex flex-col items-start justify-evenly'>
         {questions?.map((e) => (

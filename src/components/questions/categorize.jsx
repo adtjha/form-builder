@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const { v4: uuidv4 } = require("uuid");
 
@@ -22,13 +22,13 @@ const Item = ({ id, item, setItem }) => {
   );
 };
 const BelongsTo = ({ id, belong, setBelong, categories }) => {
-  let i = belong.findIndex((e) => e.id === id);
+  // let i = belong.findIndex((e) => e.id === id);
 
-  const handleChange = (e) => {
-    let obj = [...belong];
-    obj[i].val = e.target.value;
-    setBelong(obj);
-  };
+  // const handleChange = (e) => {
+  //   let obj = [...belong];
+  //   obj[i].val = e.target.value;
+  //   setBelong(obj);
+  // };
 
   // return (
   //   <input
