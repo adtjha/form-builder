@@ -3,43 +3,73 @@ const { v4: uuidv4 } = require("uuid");
 
 export const FormatQuestion = ({ q }) => {
   console.log(q);
+  const dragStartHandler = (ev) => {
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+  };
+
+  const dragOverHandler = (ev) => {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "move";
+  };
+
+  const dropHandler = (ev) => {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text/plain");
+    const draggedElement = document.getElementById(data);
+    ev.target.replaceWith(draggedElement);
+  };
+
+  const optionsDropHandler = (ev) => {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text/plain");
+    const draggedElement = document.getElementById(data);
+    ev.target.appendChild(draggedElement);
+    console.log(draggedElement);
+  };
+
   switch (q.type) {
     case "cloze":
       return (
         <div className='w-full p-4 flex flex-col items-center justify-evenly gap-4 border-2 border-gray-300 rounded-lg'>
-          <div className='w-full'>{q.question}</div>
-          <div className='w-full grid grid-cols-2 gap-2'>
+          <div
+            onDragOver={dragOverHandler}
+            onDrop={optionsDropHandler}
+            className='w-full h-12 flex flex-row flex-wrap items-start justify-evenly gap-2 border border-dashed border-gray-600 rounded-md'>
             {q?.options?.map((e, index) => {
               // Use index to determine which column the option should be placed in
               const column = index % 2 === 0 ? 1 : 2;
 
               return (
                 <label
-                  className={`w-full flex flex-row items-center justify-start my-2 gap-2 col-${column}`}>
-                  <input type='checkbox' name='q1' value={e} />
-                  <div>{e}</div>
+                  className={`w-fit flex flex-row items-center justify-start my-2 gap-2 col-${column}`}>
+                  {/* <input type='checkbox' name='q1' value={e.val} /> */}
+                  <span
+                    draggable
+                    onDragStart={dragStartHandler}
+                    id={`drag-${index}`}
+                    className='bg-gray-300 px-2 py-1 rounded-md cursor-grab'>
+                    {e.val}
+                  </span>
                 </label>
               );
+            })}
+          </div>
+          <div className='w-fit'>
+            {q.question.split(" ").map((e) => {
+              if (e.includes("_")) {
+                return (
+                  <span onDragOver={dragOverHandler} onDrop={dropHandler}>
+                    {e}{" "}
+                  </span>
+                );
+              } else {
+                return <span>{e} </span>;
+              }
             })}
           </div>
         </div>
       );
     case "categorize":
-      const dragStartHandler = (ev) => {
-        ev.dataTransfer.setData("text/plain", ev.target.id);
-      };
-
-      const dragOverHandler = (ev) => {
-        ev.preventDefault();
-        ev.dataTransfer.dropEffect = "move";
-      };
-
-      const dropHandler = (ev) => {
-        ev.preventDefault();
-        const data = ev.dataTransfer.getData("text/plain");
-        const draggedElement = document.getElementById(data);
-        ev.target.appendChild(draggedElement);
-      };
       let all = [...q.item.map((e) => e.val)];
       const len = q.item.length;
       all = shuffle(all);

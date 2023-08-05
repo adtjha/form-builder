@@ -77,23 +77,36 @@ const ComprehensionQuestion = () => {
 
     const storageRef = ref(storage, `question_${formId}`);
     // upoad image to firebase storage.
-    uploadString(storageRef, base64Image, "data_url").then((snapshot) => {
-      console.log("Uploaded a base64 string!", snapshot);
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        console.log("File available at", downloadURL);
-        dispatch({
-          type: "ADD_QUESTION",
-          payload: {
-            type: "comprehension",
-            paragraph: para,
-            img: downloadURL,
-            mcq: questions,
-            formId: formId,
-          },
+    if (!para) {
+      uploadString(storageRef, base64Image, "data_url").then((snapshot) => {
+        console.log("Uploaded a base64 string!", snapshot);
+        getDownloadURL(snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          dispatch({
+            type: "ADD_QUESTION",
+            payload: {
+              type: "comprehension",
+              paragraph: para,
+              img: downloadURL,
+              mcq: questions,
+              formId: formId,
+            },
+          });
         });
-        reset();
       });
-    });
+    } else {
+      dispatch({
+        type: "ADD_QUESTION",
+        payload: {
+          type: "comprehension",
+          paragraph: para,
+          img: "",
+          mcq: questions,
+          formId: formId,
+        },
+      });
+    }
+    reset();
   };
 
   const reset = () => {
