@@ -3,32 +3,32 @@ const { v4: uuidv4 } = require("uuid");
 
 export const FormatQuestion = ({ q }) => {
   console.log(q);
-  const dragStartHandler = (ev) => {
-    ev.dataTransfer.setData("text/plain", ev.target.id);
-  };
-
-  const dragOverHandler = (ev) => {
-    ev.preventDefault();
-    ev.dataTransfer.dropEffect = "move";
-  };
-
-  const dropHandler = (ev) => {
-    ev.preventDefault();
-    const data = ev.dataTransfer.getData("text/plain");
-    const draggedElement = document.getElementById(data);
-    ev.target.replaceWith(draggedElement);
-  };
-
-  const optionsDropHandler = (ev) => {
-    ev.preventDefault();
-    const data = ev.dataTransfer.getData("text/plain");
-    const draggedElement = document.getElementById(data);
-    ev.target.appendChild(draggedElement);
-    console.log(draggedElement);
-  };
 
   switch (q.type) {
     case "cloze":
+      const dragStartHandler = (ev) => {
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+      };
+
+      const dragOverHandler = (ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+      };
+
+      const dropHandler = (ev) => {
+        ev.preventDefault();
+        const data = ev.dataTransfer.getData("text/plain");
+        const draggedElement = document.getElementById(data);
+        ev.target.replaceWith(draggedElement);
+      };
+
+      const optionsDropHandler = (ev) => {
+        ev.preventDefault();
+        const data = ev.dataTransfer.getData("text/plain");
+        const draggedElement = document.getElementById(data);
+        ev.target.appendChild(draggedElement);
+        console.log(draggedElement);
+      };
       return (
         <div className='w-full p-4 flex flex-col items-center justify-evenly gap-4 border-2 border-gray-300 rounded-lg'>
           <div
@@ -46,7 +46,7 @@ export const FormatQuestion = ({ q }) => {
                   <span
                     draggable
                     onDragStart={dragStartHandler}
-                    id={`drag-${index}`}
+                    id={`drag-${index}-cloze`}
                     className='bg-gray-300 px-2 py-1 rounded-md cursor-grab'>
                     {e.val}
                   </span>
@@ -55,10 +55,13 @@ export const FormatQuestion = ({ q }) => {
             })}
           </div>
           <div className='w-fit'>
-            {q.question.split(" ").map((e) => {
+            {q.question.split(" ").map((e, i) => {
               if (e.includes("_")) {
                 return (
-                  <span onDragOver={dragOverHandler} onDrop={dropHandler}>
+                  <span
+                    key={`drop-${i}-cloze`}
+                    onDragOver={dragOverHandler}
+                    onDrop={dropHandler}>
                     {e}{" "}
                   </span>
                 );
@@ -70,6 +73,22 @@ export const FormatQuestion = ({ q }) => {
         </div>
       );
     case "categorize":
+      const dragStartHandler_cat = (ev) => {
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+      };
+
+      const dragOverHandler_cat = (ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+      };
+
+      const dropHandler_cat = (ev) => {
+        ev.preventDefault();
+        const data = ev.dataTransfer.getData("text/plain");
+        const draggedElement = document.getElementById(data);
+        ev.target.appendChild(draggedElement);
+      };
+
       let all = [...q.item.map((e) => e.val)];
       const len = q.item.length;
       all = shuffle(all);
@@ -82,8 +101,8 @@ export const FormatQuestion = ({ q }) => {
                 <div
                   className='border border-dashed border-stone-800 my-2 p-2 rounded-md text-center cursor-grab'
                   draggable
-                  onDragStart={dragStartHandler}
-                  id={`drag-${index}`} // Set a unique id for each draggable element
+                  onDragStart={dragStartHandler_cat}
+                  id={`drag-${index}-cat`} // Set a unique id for each draggable element
                 >
                   {e}
                 </div>
@@ -93,11 +112,11 @@ export const FormatQuestion = ({ q }) => {
             {/* Render the drop area */}
             <div
               className='mt-4 w-full grid grid-cols-2 gap-2 justify-items-center p-4 border border-gray-300 rounded-lg'
-              onDragOver={dragOverHandler}
-              onDrop={dropHandler}>
+              onDragOver={dragOverHandler_cat}
+              onDrop={dropHandler_cat}>
               {q.categories.map((e, index) => (
                 <div
-                  key={`drop-${index}`} // Set a unique key for each drop area
+                  key={`drop-${index}-cat`} // Set a unique key for each drop area
                   className={`bg-gray-300 w-full text-center p-2 rounded-md`}
                   style={{
                     height: `${q.item.length * 48}px`,
